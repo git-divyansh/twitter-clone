@@ -20,7 +20,7 @@ const HomeSection = () => {
   
   const [uploadingImage, setUploadingImage] = useState(false);
 
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<string | undefined>("");
 
   const dispatch = useAppDispatch();
 
@@ -29,13 +29,13 @@ const HomeSection = () => {
   const handleSubmit = (values : any, actions : any) => {
     dispatch(createTweet(values))
     actions.resetForm()
-    setSelectedImage(null)
+    setSelectedImage("")
     console.log("values: ", values)
   }
 
   useEffect(() => {
     dispatch(getAllTweets());
-  }, [tweet?.like, tweet?.retweet])
+  }, [tweet?.like, tweet?.retweet, tweet?.replyTweets])
   
   const formik = useFormik({
     initialValues: {
@@ -122,7 +122,7 @@ const HomeSection = () => {
       </section>
       <section>
         {                    
-          tweet?.tweets.map((item : any) => <TweetCard item={tweet}/>)
+          tweet?.tweets.map((item : any) => <TweetCard item={item}/>)
         }
       </section>
     </div>

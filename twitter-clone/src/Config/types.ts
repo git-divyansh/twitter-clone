@@ -39,4 +39,5 @@ export interface initialStateTweet  {
     likedTweets : any;
     like : any;
     retweet : any;
+    replyTweets : any
 }

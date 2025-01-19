@@ -62,7 +62,7 @@ const Profile = () => {
             dispatch(getUsersTweets(id))
         }
     }, [id])
-
+    
   return (
     <div>
         <section className={`bg-white z-50 flex items-center sticky top-0 bg-opacity-95`}>
@@ -78,10 +78,10 @@ const Profile = () => {
             <div className="flex justify-between items-start mt-5 h-[5rem]">
                 <Avatar 
                     className="transform -translate-y-24"
-                    alt="jhon wick" src="https://www.flaticon.com/free-icon/avatar_3541871"
+                    alt="jhon wick" src={auth?.findUser?.image}
                     sx={{width:"10rem", height:"10rem", border:"4px solid white"}}
                 />
-                { auth?.findUser?.req_user ?
+                { auth.findUser?.req_user ?
                 <Button className="rounded-full" variant="contained"
                     sx={{borderRadius: "20px"}} onClick={handleOpenProfileModal}
                 >Edit profile</Button>
@@ -146,7 +146,11 @@ const Profile = () => {
                     tweet?.tweets.map((item : any) => <TweetCard item={item}/>)
                 }
             </TabPanel>
-            <TabPanel value="2">users replies</TabPanel>
+            <TabPanel value="2">
+                {
+                    tweet?.tweets?.filter((item: any) => item?.user?.id === auth?.user?.id).map((item: any) => <TweetCard item={item}/>)
+                }
+            </TabPanel>
             <TabPanel value="3">Media</TabPanel>
             <TabPanel value="4">Likes</TabPanel>
         </TabContext>

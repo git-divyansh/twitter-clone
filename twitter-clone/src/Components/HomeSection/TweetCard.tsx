@@ -110,11 +110,14 @@ const TweetCard = ({item} : {item:any}) => {
                 </div>
 
                 <div className="mt-2">
-                    <div onClick={() => navigate(`/tweet/${item?.id}`)} className="cursor-pointer">
+                    <div className="cursor-pointer" onClick={() => navigate(`/tweet/${item?.id}`)}>
                         <p className="mb-2 p-0">{item?.content}</p>
-                        <img 
-                            className="w-[35rem] border border-gray-400 p-5 rounded-md"
-                            src={item?.image} alt="" />
+                        {item?.image ?
+                            <img 
+                                className="w-[35rem] border border-gray-400 p-5 rounded-md"
+                                src={item?.image} alt="" />
+                                : null
+                        }
                     </div>
                     <div className="py-5 flex flex-wrap justify-between items-center">
                         <div className="space-x-3 flex items-center text-gray-600">

@@ -70,10 +70,10 @@ export const findUserById = (userId : string) => async(dispatch : any) => {
 
 export const updateUserProfile = (reqData : any) => async(dispatch : any) => {
     try {
-        const {data} = await api.put(`/api/users/update/`, reqData);
-        console.log("Updated user : ", data);
+        const response : AxiosResponse<userSchema> = await api.put(`/api/users/update`, reqData);
+        console.log("Updated user : ", response.data);
         
-        dispatch({type : UPDATE_USER_SUCCESS, payload:data})
+        dispatch({type : UPDATE_USER_SUCCESS, payload:response.data})
     } catch (error : any){
         console.log(error);
         dispatch({type: UPDATE_USER_FAILURE, payload: error.message})

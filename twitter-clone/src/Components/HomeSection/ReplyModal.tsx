@@ -10,8 +10,10 @@ import ImageIcon from "@mui/icons-material/Image"
 import FmdGoodIcon from "@mui/icons-material/FmdGood"
 import TagFacesIcon from "@mui/icons-material/TagFaces"
 import { FormikValues, useFormik } from 'formik';
-import { useAppDispatch } from '../../Store/store';
+import { RootState, useAppDispatch } from '../../Store/store';
 import { createTweetReply } from '../../Store/Tweet/Action';
+import { useSelector } from 'react-redux';
+import { calculateDifference } from '../../Utils/timeDifferenceCalc';
 
 const style = {
   position: 'absolute',
@@ -85,8 +87,8 @@ function ReplyModal({item, open, handleClose, handleOpen} : {
                 <div className="w-full">
                     <div className="flex justify-between items-center">
                         <div className="flex cursor-pointer items-center space-x-2">
-                            <span className="font-semibold">John Wick</span>
-                            <span className="text-gray-600">@johnwick . 2min</span>
+                            <span className="font-semibold">{item?.user?.fullName}</span>
+                            <span className="text-gray-600">@{item?.user?.fullName?.split(" ").join("_")} . {calculateDifference(item?.createdAt)}</span>
                             <img src="https://w7.pngwing.com/pngs/80/808/png-transparent-verified-right-tick-ok-blue-icon-thumbnail.png" alt="" 
                             className="ml-2 w-5 h-5"
                             />
@@ -94,7 +96,7 @@ function ReplyModal({item, open, handleClose, handleOpen} : {
                     </div>
                     <div className="mt-2">
                         <div onClick={() => navigate(`/tweet/${5}`)} className="cursor-pointer">
-                            <p className="mb-2 p-0">nice tweet</p>
+                            <p className="mb-2 p-0">{item?.content}</p>
                         </div>
                     </div>
                 </div>
@@ -143,7 +145,7 @@ function ReplyModal({item, open, handleClose, handleOpen} : {
                             variant='contained'
                             type="submit"
                             >
-                                Tweet
+                                Comment
                             </Button>
                             </div>
                         </div>

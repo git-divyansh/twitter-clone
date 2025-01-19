@@ -34,14 +34,25 @@ function ProfileModal({open, handleOpen, handleClose} : {
   const disptach = useAppDispatch();
   const [uploading, setUploading] = React.useState(false);
 
-  const [selectedImage, setSelectedImage] = React.useState("");
+  const [selectedImage, setSelectedImage] = React.useState<string | undefined>("");
 
   const {auth} = useSelector((state : RootState) => state);
 
+  const clearForm = () => {
+    formik.setFieldValue("fullName", "");
+    formik.setFieldValue("website", "");
+    formik.setFieldValue("location", "");
+    formik.setFieldValue("bio", "");
+    formik.setFieldValue("backgroundImage", "");
+    formik.setFieldValue("image", "");
+    handleClose();
+  }
+
   const handleSubmit = (values : FormikValues) => {
     disptach(updateUserProfile(values));
-    console.log("values :", values);
     setSelectedImage("");
+    clearForm();
+    console.log("values :", values);
   }
 
   const handleImageChange = async (event : any) => {
@@ -55,12 +66,12 @@ function ProfileModal({open, handleOpen, handleClose} : {
 
   const formik = useFormik({
     initialValues:{
-        fullName: "",
-        website: "",
-        Location: "",
-        bio: "",
-        backgroundImage: "",
-        image: ""
+        fullName: auth.user?.fullName,
+        website: auth.user?.website,
+        location: auth.user?.location,
+        bio: auth.user?.bio,
+        backgroundImage: auth.user?.backgroundImage,
+        image: auth.user?.image
     },
     onSubmit: handleSubmit
   })
@@ -70,7 +81,7 @@ function ProfileModal({open, handleOpen, handleClose} : {
 
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={clearForm}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -78,7 +89,7 @@ function ProfileModal({open, handleOpen, handleClose} : {
           <form onSubmit={formik.handleSubmit}>
             <div className='flex items-center justify-between mb-4'>
                 <div className='flex items-center space-x-3'>
-                    <IconButton onClick={handleClose} aria-lable="delete">
+                    <IconButton onClick={clearForm} aria-lable="delete">
                         <CloseIcon />
                     </IconButton>
                     <p className='text-sm'>Edit Profile</p> 
@@ -145,12 +156,12 @@ function ProfileModal({open, handleOpen, handleClose} : {
                     <TextField 
                         fullWidth
                         id="location"
-                        name='Location'
-                        label="Location"
-                        value={formik.values.Location}
+                        name='location'
+                        label="location"
+                        value={formik.values.location}
                         onChange={formik.handleChange}
-                        error={formik.touched.Location && Boolean(formik.errors.Location)}
-                        helperText={formik.touched.Location && formik.errors.Location}
+                        error={formik.touched.location && Boolean(formik.errors.location)}
+                        helperText={formik.touched.location && formik.errors.location}
                     />
                     <div className='my-3'>
                         <p className='text-lg'>Birth date . Edit</p>

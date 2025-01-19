@@ -9,7 +9,8 @@ const initialState : initialStateTweet = {
     tweet : null,
     likedTweets : null,
     like : null,
-    retweet : null
+    retweet : null,
+    replyTweets : []
 }
 
 export const tweetReducer = (state = initialState, action : any) => {

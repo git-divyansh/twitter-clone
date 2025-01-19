@@ -69,7 +69,7 @@ export const createTweet = (tweetData : any) => async (dispatch : any) => {
 
 export const createTweetReply = (tweetData : any) => async (dispatch : any) => {
     try {
-        const {data} = await api.post(`/api/tweets/Reply`, tweetData);
+        const {data} = await api.post(`/api/tweets/reply`, tweetData);
         console.log("Reply Tweet : ", data);
         dispatch({type:REPLY_TWEET_SUCCESS, payload : data})
         
