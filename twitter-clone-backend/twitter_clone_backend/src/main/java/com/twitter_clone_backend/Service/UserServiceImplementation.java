@@ -69,8 +69,10 @@ public class UserServiceImplementation implements UserService{
         }
 
         if(req.getWebsite() != null){
-            user.setBio(req.getWebsite());
+            user.setWebsite(req.getWebsite());
         }
+
+        user.setReq_user(true);
 
 
         return userRepository.save(user);

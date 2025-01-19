@@ -61,7 +61,7 @@ public class AuthController {
         User createdUser = new User();
         createdUser.setEmail(email);
         createdUser.setFullName(fullName);
-        createdUser.setPassword(token);
+        createdUser.setPassword(passwordEncoder.encode(password));
         createdUser.setBirthDate(birthDate);
         createdUser.setVerification(new Verification());
 
@@ -78,8 +78,10 @@ public class AuthController {
         String password = user.getPassword();
 
         Authentication authentication = authenticate(username, password);
+        
+        String token = jwtProvider.generateTken(authentication);
 
-        AuthResponse response = new AuthResponse(authentication.getCredentials().toString(), true);
+        AuthResponse response = new AuthResponse(token, true);
 
         return new ResponseEntity<AuthResponse>(response, HttpStatus.ACCEPTED);
     }
@@ -89,13 +91,13 @@ public class AuthController {
         if(userDetails == null){
             throw new BadCredentialsException("Invalid username..");
         }
-        String decodedPass = jwtProvider.getPasswordFromToken(userDetails.getPassword());
 
-        if(!password.equals(decodedPass)){
+        if(!passwordEncoder.matches(password, userDetails.getPassword())){
             
             throw new BadCredentialsException("Invalid username..");
         }
 
-        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
+
 }

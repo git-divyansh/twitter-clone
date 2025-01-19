@@ -99,7 +99,7 @@ public class TweetController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @GetMapping("/")    
+    @GetMapping("")    
     public ResponseEntity<List<TweetDto>> getAllTweets(@RequestHeader("Authorization") String jwt) throws UserException, TweetException{
 
         User user = UserService.findUserProfileByJwt(jwt);
@@ -111,7 +111,7 @@ public class TweetController {
         return new ResponseEntity<>(tweetDtos, HttpStatus.OK);
     }
 
-    @GetMapping("/use/{userId}")    
+    @GetMapping("/user/{userId}")    
     public ResponseEntity<List<TweetDto>> getUsersAllTweets(@PathVariable Long userId, @RequestHeader("Authorization") String jwt) throws UserException, TweetException{
 
         User user = UserService.findUserProfileByJwt(jwt);

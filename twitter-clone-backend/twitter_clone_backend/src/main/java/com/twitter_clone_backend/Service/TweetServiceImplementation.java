@@ -1,5 +1,6 @@
 package com.twitter_clone_backend.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ public class TweetServiceImplementation implements TweetService{
 
         Tweet tweet = new Tweet();
         tweet.setContent(req.getContent());
-        tweet.setCreatedAt(req.getCreatedAt());
+        LocalDateTime at = LocalDateTime.now();
+        tweet.setCreatedAt(at);
         tweet.setImage(req.getImage());
         tweet.setUser(user);
         tweet.setReply(false);
@@ -82,7 +84,8 @@ public class TweetServiceImplementation implements TweetService{
 
         Tweet tweet = new Tweet();
         tweet.setContent(req.getContent());
-        tweet.setCreatedAt(req.getCreatedAt());
+        LocalDateTime at = LocalDateTime.now();
+        tweet.setCreatedAt(at);
         tweet.setImage(req.getImage());
         tweet.setUser(user);
         tweet.setReply(true);
@@ -91,7 +94,7 @@ public class TweetServiceImplementation implements TweetService{
 
         Tweet savedreply = tweetRepository.save(tweet);
 
-        tweet.getReplyTweets().add(savedreply);
+        replyFor.getReplyTweets().add(savedreply);
 
         tweetRepository.save(replyFor);
 
